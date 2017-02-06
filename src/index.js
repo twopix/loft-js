@@ -6,7 +6,7 @@
  Функция должна принимать один аргумент и возвращать его
  */
 function returnFirstArgument(arg) {
-  return arg;
+    return arg;
 }
 
 /*
@@ -16,8 +16,7 @@ function returnFirstArgument(arg) {
  Значение по умолчанию второго аргумента должно быть 100
  */
 function defaultParameterValue(a, b=100) {
-  // b = typeof b !== 'undefined' ?  b : 100;
-  return a+b;
+    return a+b;
 }
 
 /*
@@ -27,11 +26,7 @@ function defaultParameterValue(a, b=100) {
  Количество переданных аргументов заранее неизвестно
  */
 function returnArgumentsArray() {
-  var arr = [];
-  for (var i = 0; i < arguments.length; i++) {
-    arr.push(arguments[i]);
-  }
-  return arr;
+    return ([...arguments]);
 }
 
 /*
@@ -40,7 +35,7 @@ function returnArgumentsArray() {
  Функция должна принимать другую функцию и возвращать результат вызова переданной функции
  */
 function returnFnResult(fn) {
-  return fn();
+    return fn();
 }
 
 /*
@@ -50,10 +45,9 @@ function returnFnResult(fn) {
  При вызове F, переданное число должно быть увеличено на единицу и возвращено из F
  */
 function returnCounter(number=0) {
-  return function() {
-    return ++number;
-  };
-
+    return function() {
+        return ++number;
+    };
 }
 
 /*
@@ -63,14 +57,14 @@ function returnCounter(number=0) {
  Функция должна привязать переданные аргументы к функции F и вернуть получившуюся функцию
  */
 function bindFunction(fn) {
-  return fn();
+    return fn();
 }
 
 export {
-  returnFirstArgument,
-  defaultParameterValue,
-  returnArgumentsArray,
-  returnFnResult,
-  returnCounter,
-  bindFunction
+    returnFirstArgument,
+    defaultParameterValue,
+    returnArgumentsArray,
+    returnFnResult,
+    returnCounter,
+    bindFunction
 }
