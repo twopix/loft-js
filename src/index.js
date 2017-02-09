@@ -17,7 +17,9 @@ function isAllTrue(array, fn) {
         throw new  Error('fn is not a function');
     }
 
+    //??? можно или нет???
     return array.every(fn);
+
 }
 
 /*
@@ -37,6 +39,7 @@ function isSomeTrue(array, fn) {
         throw new  Error('fn is not a function');
     }
 
+    //??? можно или нет???
     return array.some(fn);
 }
 
@@ -49,6 +52,25 @@ function isSomeTrue(array, fn) {
  - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
+    var arg = [...arguments],
+        arr = [];
+
+    arg.shift();
+
+
+    if(typeof fn !== 'function') {
+        throw new  Error('fn is not a function');
+    }
+
+    for(var i=0; i<arg.length; i++ ) {
+        try {
+            fn(arg[i]);
+        } catch (e) {
+            arr.push(arg[i]);
+        }
+    }
+
+    return arr;
 }
 
 /*
