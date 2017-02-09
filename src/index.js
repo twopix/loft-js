@@ -30,6 +30,14 @@ function isAllTrue(array, fn) {
  Зарпещено использовать встроенные методы для работы с массивами
  */
 function isSomeTrue(array, fn) {
+    if(!Array.isArray(array) || array.length == 0) {
+        throw new  Error('empty array');
+    }
+    if(typeof fn !== 'function') {
+        throw new  Error('fn is not a function');
+    }
+
+    return array.some(fn);
 }
 
 /*
