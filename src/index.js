@@ -10,6 +10,13 @@
  Зарпещено использовать встроенные методы для работы с массивами
  */
 function isAllTrue(array, fn) {
+    if(!Array.isArray(array) || array.length == 0) {
+        throw new  Error('empty array');
+    }
+    if(typeof fn !== 'function') {
+        throw new  Error('fn is not a function');
+    }
+
     return array.every(fn);
 }
 
