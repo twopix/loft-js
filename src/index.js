@@ -10,14 +10,13 @@
  Зарпещено использовать встроенные методы для работы с массивами
  */
 function isAllTrue(array, fn) {
-    if(!Array.isArray(array) || array.length == 0) {
-        throw new  Error('empty array');
+    if (!Array.isArray(array) || array.length == 0) {
+        throw new Error('empty array');
     }
-    if(typeof fn !== 'function') {
-        throw new  Error('fn is not a function');
+    if (typeof fn !== 'function') {
+        throw new Error('fn is not a function');
     }
 
-    //??? можно или нет???
     return array.every(fn);
 
 }
@@ -32,14 +31,13 @@ function isAllTrue(array, fn) {
  Зарпещено использовать встроенные методы для работы с массивами
  */
 function isSomeTrue(array, fn) {
-    if(!Array.isArray(array) || array.length == 0) {
-        throw new  Error('empty array');
+    if (!Array.isArray(array) || array.length == 0) {
+        throw new Error('empty array');
     }
-    if(typeof fn !== 'function') {
-        throw new  Error('fn is not a function');
+    if (typeof fn !== 'function') {
+        throw new Error('fn is not a function');
     }
 
-    //??? можно или нет???
     return array.some(fn);
 }
 
@@ -57,12 +55,11 @@ function returnBadArguments(fn) {
 
     arg.shift();
 
-
-    if(typeof fn !== 'function') {
-        throw new  Error('fn is not a function');
+    if (typeof fn !== 'function') {
+        throw new Error('fn is not a function');
     }
 
-    for(var i=0; i<arg.length; i++ ) {
+    for (var i=0; i<arg.length; i++ ) {
         try {
             fn(arg[i]);
         } catch (e) {
@@ -104,7 +101,40 @@ function findError(data1, data2) {
  - number не является числом (с текстом "number is not a number")
  - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator(number) {
+function calculator(number=0) {
+
+    if (typeof number != 'number') {
+        throw new Error('number is not a number');
+    }
+
+    var Q = {
+        sum: function () {
+            return [...arguments].reduce((a, b) => a + b, 0);
+        },
+        dif: function () {
+            return [...arguments].reduce((a, b) => a - b, 0);
+        },
+        div: function () {
+            var arg = [...arguments],
+                result = number;
+
+            // debugger;
+            for (var i=0; i<arg.length; i++ ) {
+                if (arg[i] == 0 ) {
+                    throw new Error('division by 0');
+                }
+                result += result / arg[i];
+            }
+
+            return result;
+        },
+        mul: function () {
+            return [...arguments].reduce((a, b) => a * b);
+        }
+    }
+
+    return Q;
+
 }
 
 export {
