@@ -17,7 +17,13 @@ function isAllTrue(array, fn) {
         throw new Error('fn is not a function');
     }
 
-    return array.every(fn);
+    for (var i=0; i< array.length; i++) {
+        if (!fn(array[i])) {
+            return false;
+        }
+    }
+
+    return true;
 
 }
 
@@ -38,7 +44,13 @@ function isSomeTrue(array, fn) {
         throw new Error('fn is not a function');
     }
 
-    return array.some(fn);
+    for (var i=0; i< array.length; i++) {
+        if (fn(array[i])) {
+            return true;
+        }
+    }
+
+    return true;
 }
 
 /*
