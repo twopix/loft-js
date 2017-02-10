@@ -65,13 +65,11 @@ function returnBadArguments(fn) {
     var arg = [...arguments],
         arr = [];
 
-    arg.shift();
-
     if (typeof fn !== 'function') {
         throw new Error('fn is not a function');
     }
 
-    for (var i=0; i<arg.length; i++ ) {
+    for (var i=1; i<arg.length; i++ ) {
         try {
             fn(arg[i]);
         } catch (e) {
@@ -121,10 +119,24 @@ function calculator(number=0) {
 
     var Q = {
         sum: function () {
-            return [...arguments].reduce((a, b) => a + b, 0);
+            var arg = [...arguments],
+                result = number;
+
+            for (var i = 0; i<arg.length; i++) {
+                result += result + arg[i];
+            }
+
+            return result;
         },
         dif: function () {
-            return [...arguments].reduce((a, b) => a - b, 0);
+            var arg = [...arguments],
+                result = number;
+
+            for (var i = 0; i<arg.length; i++) {
+                result += result - arg[i];
+            }
+
+            return result;
         },
         div: function () {
             var arg = [...arguments],
@@ -141,7 +153,14 @@ function calculator(number=0) {
             return result;
         },
         mul: function () {
-            return [...arguments].reduce((a, b) => a * b);
+            var arg = [...arguments],
+                result = number;
+
+            for (var i = 0; i<arg.length; i++) {
+                result += result * arg[i];
+            }
+
+            return result;
         }
     }
 
