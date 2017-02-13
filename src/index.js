@@ -28,6 +28,19 @@ function map(array, fn) {
  Напишите аналог встроенного метода reduce для работы с массивами
  */
 function reduce(array, fn, initial) {
+    var prev = array[0];
+    var i = 1;
+
+    if (initial) {
+        prev = initial;
+        i = 0;
+    }
+
+    for (i; i < array.length; i++) {
+        prev = fn(prev, array[i], i, array);
+    }
+
+    return prev;
 }
 
 /*
@@ -36,6 +49,7 @@ function reduce(array, fn, initial) {
  Функция должна удалить указанное свойство из указанного объекта
  */
 function deleteProperty(obj, prop) {
+    delete obj[prop];
 }
 
 /*
