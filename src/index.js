@@ -15,11 +15,13 @@ function forEach(array, fn) {
  Напишите аналог встроенного метода map для работы с массивами
  */
 function map(array, fn) {
-    var res  = [];
+    var res = [];
+
     for (var i=0; i<array.length; i++) {
         res.push(fn(array[i], i, array));
 
     }
+
     return res;
 }
 
@@ -86,7 +88,42 @@ function upperProps(obj) {
  Задача 8 *:
  Напишите аналог встроенного метода slice для работы с массивами
  */
-function slice(array, from, to) {
+function slice(array, from=0, to = array.length) {
+    var arr = [];
+
+    // проверить если это число
+    if (isNaN(from ) || isNaN(to)) {
+        return [];
+    }
+
+    // проверяем отрецательные индексы
+    if (from < 0) {
+        if (from < -array.length) {
+            from = 0;
+        } else {
+            from = from + array.length;
+        }
+    // проверка положительных индексов больше длины массива
+    } else if (from > array.length) {
+        from = array.length;
+    }
+
+    // the same here...
+    if (to < 0) {
+        if (to < -array.length) {
+            to = 0;
+        } else {
+            to = to + array.length;
+        }
+    } else if (to > array.length) {
+        to = array.length;
+    }
+
+    for (from; from < to; from++) {
+        arr.push(array[from]);
+    }
+
+    return arr;
 }
 
 /*
@@ -95,6 +132,7 @@ function slice(array, from, to) {
  Proxy должен перехватывать все попытки записи значений свойств и возводить это значение в квадрат
  */
 function createProxy(obj) {
+    return obj;
 }
 
 export {
