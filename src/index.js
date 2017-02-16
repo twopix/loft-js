@@ -33,6 +33,7 @@ function createAWithHref(hrefValue) {
  * @param {Element} where - куда вставлять
  */
 function prepend(what, where) {
+    where.insertBefore(what,where.firstChild);
 }
 
 /**
@@ -50,6 +51,15 @@ function prepend(what, where) {
  * т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+    let arr = [];
+
+    for(let el of where.children) {
+        console.log(el.nextElementSibling);
+        if (el.nextElementSibling && el.nextElementSibling.tagName == 'P') {
+            arr.push(el);
+        }
+    }
+    return arr;
 }
 
 /**
