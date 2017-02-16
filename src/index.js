@@ -7,6 +7,10 @@
  * @return {Element}
  */
 function createDivWithText(text) {
+    let d = document.createElement('div');
+    d.innerHTML = text;
+
+    return d;
 }
 
 /**
@@ -16,6 +20,10 @@ function createDivWithText(text) {
  * @return {Element}
  */
 function createAWithHref(hrefValue) {
+    let d = document.createElement('A');
+    d.setAttribute('href', hrefValue);
+
+    return d;
 }
 
 /**
