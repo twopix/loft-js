@@ -96,7 +96,7 @@ function findError(where) {
 function deleteTextNodes(where) {
     for (let node of where.childNodes) {
         if (node.nodeType == 3) {
-            where.removeChild(node);
+            node.remove();
         }
     }
 }
@@ -112,6 +112,15 @@ function deleteTextNodes(where) {
  * должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
+    for (var i = where.childNodes.length - 1; i >= 0; i--) {
+        var node = where.childNodes[i];
+
+        if (node.nodeType==1) {
+            deleteTextNodesRecursive(node);
+        } else {
+            node.remove();
+        }
+    }
 }
 
 /**
