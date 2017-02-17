@@ -8,6 +8,7 @@
  */
 function createDivWithText(text) {
     let d = document.createElement('div');
+
     d.innerHTML = text;
 
     return d;
@@ -21,6 +22,7 @@ function createDivWithText(text) {
  */
 function createAWithHref(hrefValue) {
     let d = document.createElement('A');
+
     d.setAttribute('href', hrefValue);
 
     return d;
@@ -33,7 +35,7 @@ function createAWithHref(hrefValue) {
  * @param {Element} where - куда вставлять
  */
 function prepend(what, where) {
-    where.insertBefore(what,where.firstChild);
+    where.insertBefore(what, where.firstChild);
 }
 
 /**
@@ -53,12 +55,12 @@ function prepend(what, where) {
 function findAllPSiblings(where) {
     let arr = [];
 
-    for(let el of where.children) {
-        console.log(el.nextElementSibling);
+    for (let el of where.children) {
         if (el.nextElementSibling && el.nextElementSibling.tagName == 'P') {
             arr.push(el);
         }
     }
+
     return arr;
 }
 
@@ -146,6 +148,50 @@ function deleteTextNodesRecursive(where) {
  * }
  */
 function collectDOMStat(root) {
+    let obj = {
+        tags: {},
+        classes: {},
+        texts: 0
+    }
+
+    getNodes(root);
+
+    function getNodes(el) {
+
+        for (let i =0 ; i< el.childNodes.length; i++) {
+            var node = el.childNodes[i];
+
+            // count text nodes
+            if (node.nodeType==3) {
+                obj.texts++;
+            }
+
+            if (node.tagName && obj.tags.hasOwnProperty(node.tagName)) {
+                obj.tags[node.tagName]++;
+            } else if (node.tagName && !obj.tags.hasOwnProperty(node.tagName)) {
+                obj.tags[node.tagName] = 1;
+            }
+
+            if (node.classList) {
+                node.classList.forEach((item) => {
+                    if (obj.classes.hasOwnProperty(item)) {
+                        obj.classes[item]++
+                    } else {
+                        obj.classes[item] = 1;
+                    }
+                });
+            }
+
+            if (node.childNodes) {
+                getNodes(node);
+            }
+
+        }
+
+
+    }
+
+    return obj;
 }
 
 /**
@@ -167,7 +213,7 @@ function collectDOMStat(root) {
  * то fn должна быть вызвана с аргументов:
  * {
  *   type: 'insert',
- *   nodes: [div]
+ *   nodes: [div]rm
  * }
  *
  * ------
@@ -180,6 +226,7 @@ function collectDOMStat(root) {
  * }
  */
 function observeChildNodes(where, fn) {
+
 }
 
 export {
