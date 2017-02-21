@@ -29,6 +29,7 @@ function removeListener(eventName, target, fn) {
  * @param {Element} target - элемент, на который нужно добавить обработчик
  */
 function skipDefault(eventName, target) {
+    // debugger ;
     target.addEventListener(eventName, e => e.preventDefault());
 }
 
@@ -71,6 +72,10 @@ function delegate(target, fn) {
  * @param {function} fn - обработчик
  */
 function once(target, fn) {
+    target.addEventListener('click', function(e) {
+        fn();
+    })
+
 }
 
 export {

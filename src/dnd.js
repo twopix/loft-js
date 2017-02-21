@@ -25,6 +25,22 @@ let homeworkContainer = document.querySelector('#homework-container');
  * @return {Element}
  */
 function createDiv() {
+    let divsize = ((Math.random()*100) + 50).toFixed(); //random size
+    let color = '#'+ Math.round(0xffffff * Math.random()).toString(16); //random colors
+
+    // make position sensitive to size and document's width
+    let posx = (Math.random() * screen.width - divsize).toFixed();
+    let posy = (Math.random() * screen.height - divsize).toFixed();
+
+    let div = document.createElement('div');
+    div.style.width = divsize + 'px';
+    div.style.height = divsize + 'px';
+    div.style.backgroundColor = color;
+    div.style.position = 'absolute';
+    div.style.top = posy +'px';
+    div.style.left = posx +'px';
+
+    return div;
 }
 
 /**
