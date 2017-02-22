@@ -49,6 +49,11 @@ function createDiv() {
  * @param {Element} target
  */
 function addListeners(target) {
+    var bodyRect = document.body.getBoundingClientRect(),
+        elemRect = element.getBoundingClientRect(),
+        offset   = elemRect.top - bodyRect.top;
+    
+    target.addEventListener('drag')
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
