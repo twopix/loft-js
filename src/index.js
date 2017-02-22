@@ -40,7 +40,7 @@ function skipDefault(eventName, target) {
  */
 function emulateClick(target) {
 
-    let touch = new CustomEvent('click', false);
+    let touch = new CustomEvent('click');
 
     target.dispatchEvent(touch);
 }
@@ -53,13 +53,12 @@ function emulateClick(target) {
  * @param {function} fn - функция, которую нужно вызвать при клике на элемент BUTTON внутри target
  */
 function delegate(target, fn) {
-
-    target.addEventListener('click', function (e) {
-            if (e.target.tagname == 'BUTTON') {
-                fn();
-            }
+    var func = function (e) {
+        if (e.target.tagname == 'BUTTON') {
+            fn();
         }
-    )
+    };
+    target.addEventListener('click', func)
 }
 
 /**

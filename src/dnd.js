@@ -39,6 +39,7 @@ function createDiv() {
     div.style.position = 'absolute';
     div.style.top = posy +'px';
     div.style.left = posx +'px';
+    div.classList.add('draggable-div');
 
     return div;
 }
@@ -50,7 +51,7 @@ function createDiv() {
  */
 function addListeners(target) {
     var bodyRect = document.body.getBoundingClientRect(),
-        elemRect = element.getBoundingClientRect(),
+        elemRect = bodyRect.getBoundingClientRect(),
         offset   = elemRect.top - bodyRect.top;
     
     target.addEventListener('drag')
