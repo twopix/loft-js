@@ -55,9 +55,10 @@ function loadTowns() {
 function isMatching(full, chunk) {
     var string = full.toLowerCase(),
         substring = chunk.toLowerCase();
+    
     return string.includes(substring);
 }
-
+let cities = [];
 let loadingBlock = homeworkContainer.querySelector('#loading-block');
 let filterBlock = homeworkContainer.querySelector('#filter-block');
 let filterInput = homeworkContainer.querySelector('#filter-input');
@@ -72,16 +73,30 @@ loadTowns().then(
         cities = response;
     },
     // rejected
-    ()=> {
+    rejected=> {
         filterBlock.style.display = 'block';
         filterInput.style.display = 'block';
         loadingBlock.style.display = 'none';
+        filterResult.innerText = rejected;
         
     }
 );
 
 filterInput.addEventListener('keyup', function() {
     let value = this.value.trim();
+
+    filterResult.innerText = '';
+
+    if (value != '') {
+        filterResult.innerText = null;
+            // console.log(cities);
+        for (let i=0; i < cities.length; i++) {
+            // console.log(cities[i].name);
+            if (isMatching(cities[i].name, value)) {
+                filterResult.innerText += cities[i].name + '\n';
+            }
+        }
+    }
 });
 
 export {
