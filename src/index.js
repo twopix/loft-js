@@ -33,27 +33,29 @@ function delayPromise(seconds) {
 function loadAndSortTowns() {
     let url = 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json';
     let arr = [];
+    let req = new XMLHttpRequest();
+    req.open('GET', url);
+    req.responseType = 'json';
+    req.send();
+    
     return new Promise(function (resolve, reject)  {
-        var req = new XMLHttpRequest();
-        req.open('GET', url);
-        req.responseType = 'json';
         req.onload = function() {
-        
-                if (req.status == 200) {
-                    var json = req.response;
+            if (req.status == 200) { 
+                    resolve(
+                        req.response.sort(
+                            function(a,b) {
+                                if(a.name < b.name) return -1;
+                                if(a.name > b.name) return 1;
+                                return 0;
+                            }
+                        )
+                    );
      
-                    for(var x in json){
-                        arr.push(json[x].name);
-                    }
-     
-                    resolve(arr);
-     
-               } else {
+            } else {
                     reject(req.response);
-                }
+            }
         }
 
-        req.send();
     });
 }
 export {
