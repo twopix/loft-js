@@ -53,6 +53,9 @@ function loadTowns() {
  * @return {boolean}
  */
 function isMatching(full, chunk) {
+    var string = full.toLowerCase(),
+        substring = chunk.toLowerCase();
+    return string.includes(substring);
 }
 
 let loadingBlock = homeworkContainer.querySelector('#loading-block');
