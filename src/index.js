@@ -11,9 +11,7 @@ function delayPromise(seconds) {
 
     var p = new Promise(
         function (resolve, reject) {
-            setTimeout(function () {
-                resolve();
-            }, ms);
+            setTimeout(resolve, ms);
         }
     );
     p.then(function () {
@@ -36,10 +34,19 @@ function loadAndSortTowns() {
     let url = 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json';
 
     return new Promise(function (resolve, reject)  {
+        var req = new XMLHttpRequest();
+        req.open('GET', url);
+        req.onload = function() {
+            if (req.status == 200) {
+                resolve(req.response);
+            } else {
+                reject(req.response);
+            }
+        }
 
+        req.send();
     });
 }
-
 export {
     delayPromise,
     loadAndSortTowns
