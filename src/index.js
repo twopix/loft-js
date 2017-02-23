@@ -7,14 +7,22 @@
  * @return {Promise}
  */
 function delayPromise(seconds) {
+    var ms = seconds*1000;
+
     var p = new Promise(
         function (resolve, reject) {
             setTimeout(function () {
                 resolve();
-            }, seconds);
+            }, ms);
         }
     );
+    p.then(function () {
+        return p;
+    });
     return p;
+
+
+
 }
 
 /**
@@ -26,6 +34,10 @@ function delayPromise(seconds) {
  */
 function loadAndSortTowns() {
     let url = 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json';
+
+    return new Promise(function (resolve, reject)  {
+
+    });
 }
 
 export {
