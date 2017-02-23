@@ -63,6 +63,23 @@ let filterBlock = homeworkContainer.querySelector('#filter-block');
 let filterInput = homeworkContainer.querySelector('#filter-input');
 let filterResult = homeworkContainer.querySelector('#filter-result');
 
+loadTowns().then(
+    // resolved
+    response=> {
+        filterBlock.style.display = 'block';
+        filterInput.style.display = 'block';
+        loadingBlock.style.display = 'none';
+        cities = response;
+    },
+    // rejected
+    ()=> {
+        filterBlock.style.display = 'block';
+        filterInput.style.display = 'block';
+        loadingBlock.style.display = 'none';
+        
+    }
+);
+
 filterInput.addEventListener('keyup', function() {
     let value = this.value.trim();
 });
