@@ -53,6 +53,10 @@ let listTable = homeworkContainer.querySelector('#list-table tbody');
  * @return {boolean}
  */
 function isMatching(full, chunk) {
+    var string = full.toLowerCase(),
+        substring = chunk.toLowerCase();
+    
+    return string.includes(substring);
 }
 
 /**
@@ -62,11 +66,39 @@ function isMatching(full, chunk) {
  * @param value - значение cookie
  */
 function createCookieTr(name, value) {
+    // Insert a row in the 0
+    let newRow   = listTable.insertRow(0);
+
+    // Insert a cell in the row at index 0
+    let newCell  = newRow.insertCell(0);
+    let newCel2  = newRow.insertCell(1);
+    let newCel3  = newRow.insertCell(2);
+    
+    newCell.innerHTML = name;
+    newCel2.innerHTML = value;
+
+
 }
 
 filterNameInput.addEventListener('keyup', function() {
+    let value = this.value.trim();
+
+    filterResult.innerText = '';
+
+    if (value != '') {
+        filterResult.innerText = null;
+            // console.log(cities);
+        for (let i=0; i < cities.length; i++) {
+            // console.log(cities[i].name);
+            if (isMatching(cities[i].name, value)) {
+                filterResult.innerText += cities[i].name + '\n';
+            }
+        }
+    }
 });
 
 addButton.addEventListener('click', () => {
+    createCookieTr(addNameInput.value, addValueInput.value);
+    createCookie(addNameInput, addValueInput);
 });
 
