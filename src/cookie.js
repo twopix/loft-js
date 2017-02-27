@@ -102,17 +102,30 @@ function createCookieTr(name, value) {
         // Insert a row in the 0
         let newRow   = listTable.insertRow(0);
 
-        // Insert a cell in the row at index 0
+        // Insert cells in the row at index 0
         let newCell  = newRow.insertCell(0);
         let newCel2  = newRow.insertCell(1);
         let newCel3  = newRow.insertCell(2);
 
+        // create delete button
+        var element = document.createElement('button');
+        element.innerHTML = "Удалить";
+        element.onclick = ()=> deleteRowAndCookie(newRow, name); 
+        
         newCell.innerHTML = name;
         newCel2.innerHTML = value;
-
+        newCel3.appendChild(element);
     }
-
-
+}
+/**
+ * Удаляет запись таблицы и cookie
+ *
+ * @param row - row
+ * @param name - name cookie
+ */
+function deleteRowAndCookie(row, name) {
+    row.parentNode.removeChild(row);
+    deleteCookie(name);
 }
 
 filterNameInput.addEventListener('keyup', function() {
