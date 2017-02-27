@@ -9,7 +9,7 @@
  * @return {Window}
  */
 function createWindow(name, width, height) {
-    return window.open('',name, `width:width, height: height`);
+    return window.open('', name, 'width: '+ width + ',height:' + height);
 }
 
 /**
@@ -28,7 +28,7 @@ function closeWindow(window) {
  * @param value - значение
  */
 function createCookie(name, value) {
-    document.cookie = name + "=" + value ;
+    document.cookie = name + '=' + value ;
 }
 
 /**

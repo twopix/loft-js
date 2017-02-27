@@ -36,9 +36,6 @@ import {
  * @example
  * homeworkContainer.appendChild(...);
  */
-
-
-
 let homeworkContainer = document.querySelector('#homework-container');
 let filterNameInput = homeworkContainer.querySelector('#filter-name-input');
 let addNameInput = homeworkContainer.querySelector('#add-name-input');
@@ -79,17 +76,35 @@ function isMatching(full, chunk) {
  * @return {boolean}
  */
 function isExists(name, value) {
-    for(let i=0; i < listTable.rows.length; i++) {
+    for (let i=0; i < listTable.rows.length; i++) {
         let cookieNameInCell = listTable.rows[i].cells[0].innerHTML;
         let cookieValueCell = listTable.rows[i].cells[1];
 
         if (cookieNameInCell == name) {
             cookieValueCell.innerHTML = value;
+            
             return true;
         }
     }
-   return false;
 
+    return false;
+}
+/**
+ * Функция возвращает все куки
+ *
+ * @return {cookie: String}
+ *
+ */
+function getCookies() {
+    return document.cookie
+        .split('; ')
+        .filter(Boolean)
+        .map(cookie => cookie.match(/^([^=]+)=(.+)/))
+        .reduce((obj, [, name, value]) => {
+            obj[name] = value;
+
+            return obj;
+        }, {});
 }
 /**
  * Создает новый tr для таблицы со списком cookie
@@ -98,18 +113,19 @@ function isExists(name, value) {
  * @param value - значение cookie
  */
 function createCookieTr(name, value) {
-    if(!isExists(name,value)) {
+    if (!isExists(name, value)) {
         // Insert a row in the 0
-        let newRow   = listTable.insertRow(0);
+        let newRow = listTable.insertRow(0);
 
         // Insert cells in the row at index 0
-        let newCell  = newRow.insertCell(0);
-        let newCel2  = newRow.insertCell(1);
-        let newCel3  = newRow.insertCell(2);
+        let newCell = newRow.insertCell(0);
+        let newCel2 = newRow.insertCell(1);
+        let newCel3 = newRow.insertCell(2);
 
         // create delete button
         var element = document.createElement('button');
-        element.innerHTML = "Удалить";
+        
+        element.innerHTML = 'Удалить';
         element.onclick = ()=> deleteRowAndCookie(newRow, name); 
         
         newCell.innerHTML = name;
@@ -127,26 +143,42 @@ function deleteRowAndCookie(row, name) {
     row.parentNode.removeChild(row);
     deleteCookie(name);
 }
+/**
+ * Функция убирает все дочерние элементы 
+ *
+ * @param {Element} node - где искать
+ *
+ */
+function deleteSubElements(node) {
+    
+    while (node.firstElementChild) {
+        node.removeChild(node.firstElementChild);
+    }
+}
 
-filterNameInput.addEventListener('keyup', function() {
-    let value = this.value.trim();
+/**
+ * Функция обновляет таблицу со значениями cookie
+ *
+ */
+function updateList() {
+    let cookies = getCookies();
 
-    filterResult.innerText = '';    
-
-    if (value != '') {
-        filterResult.innerText = null;
-            // console.log(cities);
-        for (let i=0; i < cities.length; i++) {
-            // console.log(cities[i].name);
-            if (isMatching(cities[i].name, value)) {
-                filterResult.innerText += cities[i].name + '\n';
-            }
+    deleteSubElements(listTable);
+    for (let cookie in cookies) {
+        if (filterNameInput.value =='' ||
+            isMatching(cookie, filterNameInput.value) ||
+            isMatching(cookies[cookie], filterNameInput.value)) {
+            createCookieTr(cookie, cookies[cookie]);
         }
     }
+}
+
+filterNameInput.addEventListener('keyup', function() {
+    updateList();
 });
 
 addButton.addEventListener('click', () => {
-    if(addNameInput.value != '') {
+    if (addNameInput.value != '') {
         createCookieTr(addNameInput.value, addValueInput.value);
         createCookie(addNameInput.value, addValueInput.value);
     }
