@@ -24,6 +24,10 @@
  *
  * Запрещено использовать сторонние библиотеки. Разрешено пользоваться только тем, что встроено в браузер
  */
+import {
+    createCookie,
+    deleteCookie
+} from './index';
 
 /**
  * homeworkContainer - это контейнер для всех ваших домашних заданий
@@ -32,6 +36,9 @@
  * @example
  * homeworkContainer.appendChild(...);
  */
+
+
+
 let homeworkContainer = document.querySelector('#homework-container');
 let filterNameInput = homeworkContainer.querySelector('#filter-name-input');
 let addNameInput = homeworkContainer.querySelector('#add-name-input');
@@ -58,7 +65,32 @@ function isMatching(full, chunk) {
     
     return string.includes(substring);
 }
+/**
+ * Функция должна проверять есть ли одинаковая запись в таблице 
+ * если есть, то обнавляет значение куки в таблице
+ * 
+ * @param name - имя куки
+ * @param value - значение куки
+ * 
+ * @example
+ * isExists('Moscow') // true
+ * isExists('Moscow2') // false
+ *
+ * @return {boolean}
+ */
+function isExists(name, value) {
+    for(let i=0; i < listTable.rows.length; i++) {
+        let cookieNameInCell = listTable.rows[i].cells[0].innerHTML;
+        let cookieValueCell = listTable.rows[i].cells[1];
 
+        if (cookieNameInCell == name) {
+            cookieValueCell.innerHTML = value;
+            return true;
+        }
+    }
+   return false;
+
+}
 /**
  * Создает новый tr для таблицы со списком cookie
  *
@@ -66,16 +98,19 @@ function isMatching(full, chunk) {
  * @param value - значение cookie
  */
 function createCookieTr(name, value) {
-    // Insert a row in the 0
-    let newRow   = listTable.insertRow(0);
+    if(!isExists(name,value)) {
+        // Insert a row in the 0
+        let newRow   = listTable.insertRow(0);
 
-    // Insert a cell in the row at index 0
-    let newCell  = newRow.insertCell(0);
-    let newCel2  = newRow.insertCell(1);
-    let newCel3  = newRow.insertCell(2);
-    
-    newCell.innerHTML = name;
-    newCel2.innerHTML = value;
+        // Insert a cell in the row at index 0
+        let newCell  = newRow.insertCell(0);
+        let newCel2  = newRow.insertCell(1);
+        let newCel3  = newRow.insertCell(2);
+
+        newCell.innerHTML = name;
+        newCel2.innerHTML = value;
+
+    }
 
 
 }
@@ -83,7 +118,7 @@ function createCookieTr(name, value) {
 filterNameInput.addEventListener('keyup', function() {
     let value = this.value.trim();
 
-    filterResult.innerText = '';
+    filterResult.innerText = '';    
 
     if (value != '') {
         filterResult.innerText = null;
@@ -98,7 +133,9 @@ filterNameInput.addEventListener('keyup', function() {
 });
 
 addButton.addEventListener('click', () => {
-    createCookieTr(addNameInput.value, addValueInput.value);
-    createCookie(addNameInput, addValueInput);
+    if(addNameInput.value != '') {
+        createCookieTr(addNameInput.value, addValueInput.value);
+        createCookie(addNameInput.value, addValueInput.value);
+    }
 });
 
