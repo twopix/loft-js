@@ -182,5 +182,6 @@ addButton.addEventListener('click', () => {
         createCookieTr(addNameInput.value, addValueInput.value);
         createCookie(addNameInput.value, addValueInput.value);
     }
+    updateList();
 });
 
