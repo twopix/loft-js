@@ -3,7 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <title>{{htmlWebpackPlugin.options.title}}</title>
+  <script type="text/javascript" src="https://vk.com/js/api/openapi.js?122"></script>
 </head>
 <body>
+<button>load friends</button>
+
+<div id="friends"></div>
+<script>
+function login() {
+    return new Promise((resolve, reject)=> {
+        VK.init({
+            apiId: 5924014
+        });
+        VK.Auth.login(function (result) {
+            if(result.status == 'connected') {
+                resolve();
+
+            } else {
+                reject();
+            }
+        });
+
+    });
+}
+
+var friendsList = document.querySelector('#friends');
+
+login()
+        .then(()=> console.log('vse ok'))
+        .then(()=> {
+            return callAPI('friends.get', {v: 5.62, fields: ['city', 'country', 'photo_100']});
+        })
+        .then(result => {
+            result.items
+                    .map(createDiv)
+                    .forEach(div => friendsList.appendChild(div));
+        })
+        .catch(()=> console.log('vse plox'));
+
+    //    VK.Auth.revokeGrants();
+
+function callAPI(method, params) {
+   return new Promise((resolve, reject) => {
+     VK.api(method, params, function (result) {
+         if(result.error) {
+           reject();
+         } else {
+           resolve(result.response);
+         }
+     });
+   }) ;
+}
+
+function createDiv(friend) {
+    var friendDiv = document.createElement('div');
+    var locationDiv = document.createElement('div');
+    var countryDiv = document.createElement('div');
+    var cityDiv = document.createElement('div');
+    var nameDiv= document.createElement('div');
+    var friendImg = new Image();
+
+    friendImg.classList.add('photo');
+    friendImg.src = friend.photo_100;
+
+    if (friend.city) {
+        cityDiv.innerText = friend.city.title;
+    }
+    cityDiv.classList.add('city');
+
+    if (friend.country) {
+        countryDiv.innerText = friend.country.title;
+    }
+
+    countryDiv.classList.add('country');
+
+    locationDiv.classList.add('location');
+    locationDiv.appendChild(countryDiv);
+    locationDiv.appendChild(cityDiv);
+
+    nameDiv.classList.add('name');
+    nameDiv.innerText = friend.first_name;
+
+    friendDiv.classList.add('friend');
+    friendDiv.appendChild(friendImg);
+    friendDiv.appendChild(nameDiv);
+    friendDiv.appendChild(locationDiv);
+
+    return friendDiv;
+}
+
+</script>
 </body>
 </html>
