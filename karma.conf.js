@@ -14,7 +14,7 @@ module.exports = function(config) {
         },
         reporters: ['mocha'],
         port: 9876,
-        browsers: ['Chrome'],
+        browsers: ['Firefox', 'Chrome'],
         captureTimeout: 20000,
         singleRun: false,
         plugins: [
